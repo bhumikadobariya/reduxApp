@@ -1,5 +1,5 @@
 import React from 'react';
-// import SignupForm from 'SignupForm';
+import SignupForm from './SignupForm';
 
 class SignupPage extends React.Component {
   render () {
@@ -7,6 +7,7 @@ class SignupPage extends React.Component {
       <div className='row'>
         <div className='col-md-4 col-md-offset-4'>
           <h1>Sign Up Page</h1>
+          <SignupForm />
         </div>
       </div>
     )
