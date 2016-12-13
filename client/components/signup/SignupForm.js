@@ -1,4 +1,5 @@
 import React from 'react';
+// import axios from 'axios';
 
 class SignupForm extends React.Component {
 
@@ -21,7 +22,9 @@ class SignupForm extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    // console.log(this.state);
+    // axios.post('/api/users', { user: this.state} );
+    this.props.userSignupRequest(this.state);
   }
 
   render () {
@@ -31,58 +34,50 @@ class SignupForm extends React.Component {
 
         <div className="form-group">
           <label className="col-sm-2 control-label">Name</label>
-          <div className="col-sm-4">
-            <input
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={this.onChange}
-              className="form-control form-control-inline"
-              placeholder="enter your name"
-            />
-          </div>
+          <input
+            type="text"
+            name="username"
+            value={this.state.username}
+            onChange={this.onChange}
+            className="form-control form-control-inline"
+            placeholder="enter your name"
+          />
         </div>
 
         <div className="form-group">
           <label className="col-sm-2 control-label">Email</label>
-          <div className="col-sm-4">
-            <input
-              type="text"
-              name="email"
-              value={this.state.email}
-              onChange={this.onChange}
-              className="form-control form-control-inline"
-              placeholder="enter your email"
-            />
-          </div>
+          <input
+            type="text"
+            name="email"
+            value={this.state.email}
+            onChange={this.onChange}
+            className="form-control form-control-inline"
+            placeholder="enter your email"
+          />
         </div>
 
         <div className="form-group">
           <label className="col-sm-2 control-label">Password</label>
-          <div className="col-sm-4">
-            <input
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.onChange}
-              className="form-control form-control-inline"
-              placeholder="enter your password"
-            />
-          </div>
+          <input
+            type="password"
+            name="password"
+            value={this.state.password}
+            onChange={this.onChange}
+            className="form-control form-control-inline"
+            placeholder="enter your password"
+          />
         </div>
 
         <div className="form-group">
           <label className="col-sm-2 control-label">Password Confirmation</label>
-          <div className="col-sm-4">
-            <input
-              type="text"
-              name="passwordConfirmation"
-              value={this.state.passwordConfirmation}
-              onChange={this.onChange}
-              className="form-control form-control-inline"
-              placeholder="enter your name"
-            />
-          </div>
+          <input
+            type="password"
+            name="passwordConfirmation"
+            value={this.state.passwordConfirmation}
+            onChange={this.onChange}
+            className="form-control form-control-inline"
+            placeholder="enter your name"
+          />
         </div>
 
         <div className="form-group">
@@ -91,8 +86,12 @@ class SignupForm extends React.Component {
           </button>
         </div>
       </form>
-    )
+    );
   }
+}
+
+SignupForm.propTypes = {
+  userSignupRequest: React.PropTypes.func.isRequired
 }
 
 export default SignupForm;
