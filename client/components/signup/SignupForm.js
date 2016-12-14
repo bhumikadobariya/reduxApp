@@ -1,5 +1,7 @@
 import React from 'react';
 // import axios from 'axios';
+import validateInput from '../../../server/shared/validations/signup';
+import TextFieldGroup from '../common/TextFieldGroup';
 
 class SignupForm extends React.Component {
 
@@ -22,14 +24,28 @@ class SignupForm extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  isValid() {
+    const { errors, isValid } = validateInput(this.state);
+
+    if(!isValid) {
+      this.setState({ errors });
+    }
+
+    return isValid;
+  }
+
   onSubmit(e) {
     e.preventDefault(e);
-    this.setState({ errors: {}, isLoading: true });
-    this.props.userSignupRequest(this.state).then(
-      () => {},
-      // (err) => this.setState({ errors: err.response.data, isLoading: false })
-      ( data ) => this.setState({ errors: data.response.data, isLoading: false })
-    );
+
+    // if(true) {                 //--------- for server side validation -----------//
+    if(this.isValid()) {          //--------- for client side validation -----------//
+      this.setState({ errors: {}, isLoading: true });
+      this.props.userSignupRequest(this.state).then(
+        () => {},
+        // (err) => this.setState({ errors: err.response.data, isLoading: false })
+        ( data ) => this.setState({ errors: data.response.data, isLoading: false })
+      );
+    }
   }
 
   render () {
@@ -38,57 +54,45 @@ class SignupForm extends React.Component {
       <form onSubmit={this.onSubmit}>
         <h1>Join Us</h1>
 
-        <div className="form-group">
-          <label className="col-sm-2 control-label">Name</label>
-          <input
-            type="text"
-            name="username"
-            value={this.state.username}
-            onChange={this.onChange}
-            className="form-control form-control-inline"
-            placeholder="enter your name"
-          />
-          {errors.username && <span className="help-block">{errors.username}</span>}
-        </div>
+        <TextFieldGroup
+          type="text"
+          error={errors.username}
+          label="Username"
+          onChange={this.onChange}
+          value={this.state.username}
+          field="username"
+          placeholder="enter your name"
+        />
 
-        <div className="form-group">
-          <label className="col-sm-2 control-label">Email</label>
-          <input
-            type="text"
-            name="email"
-            value={this.state.email}
-            onChange={this.onChange}
-            className="form-control form-control-inline"
-            placeholder="enter your email"
-          />
-          {errors.email && <span className="help-block">{errors.email}</span>}
-        </div>
+        <TextFieldGroup
+          type="text"
+          error={errors.email}
+          label="Email"
+          onChange={this.onChange}
+          value={this.state.email}
+          field="email"
+          placeholder="enter your email"
+        />
 
-        <div className="form-group">
-          <label className="col-sm-2 control-label">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={this.state.password}
-            onChange={this.onChange}
-            className="form-control form-control-inline"
-            placeholder="enter your password"
-          />
-          {errors.password && <span className="help-block">{errors.password}</span>}
-        </div>
+        <TextFieldGroup
+          type="password"
+          error={errors.password}
+          label="Password"
+          onChange={this.onChange}
+          value={this.state.password}
+          field="password"
+          placeholder="enter your password"
+        />
 
-        <div className="form-group">
-          <label className="col-sm-2 control-label">Password Confirmation</label>
-          <input
-            type="password"
-            name="passwordConfirmation"
-            value={this.state.passwordConfirmation}
-            onChange={this.onChange}
-            className="form-control form-control-inline"
-            placeholder="enter your name"
-          />
-          {errors.passwordConfirmation && <span className="help-block">{errors.passwordConfirmation}</span>}
-        </div>
+        <TextFieldGroup
+          type="password"
+          error={errors.passwordConfirmation}
+          label="Password Confirmation"
+          onChange={this.onChange}
+          value={this.state.passwordConfirmation}
+          field="passwordConfirmation"
+          placeholder="enter your password confirmation"
+        />
 
         <div className="form-group">
           <button disabled={this.state.isLoading} className="btn btn-primary btn-lg">
