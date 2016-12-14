@@ -9,8 +9,10 @@ class SignupForm extends React.Component {
       username: '',
       email: '',
       password: '',
-      passwordConfirmation: ''
-    }
+      passwordConfirmation: '',
+      errors: {},
+      isLoading: false
+    };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -21,13 +23,17 @@ class SignupForm extends React.Component {
   }
 
   onSubmit(e) {
-    e.preventDefault();
-    // console.log(this.state);
-    // axios.post('/api/users', { user: this.state} );
-    this.props.userSignupRequest(this.state);
+    e.preventDefault(e);
+    this.setState({ errors: {}, isLoading: true });
+    this.props.userSignupRequest(this.state).then(
+      () => {},
+      // (err) => this.setState({ errors: err.response.data, isLoading: false })
+      ( data ) => this.setState({ errors: data.response.data, isLoading: false })
+    );
   }
 
   render () {
+    const { errors } = this.state;
     return (
       <form onSubmit={this.onSubmit}>
         <h1>Join Us</h1>
@@ -42,6 +48,7 @@ class SignupForm extends React.Component {
             className="form-control form-control-inline"
             placeholder="enter your name"
           />
+          {errors.username && <span className="help-block">{errors.username}</span>}
         </div>
 
         <div className="form-group">
@@ -54,6 +61,7 @@ class SignupForm extends React.Component {
             className="form-control form-control-inline"
             placeholder="enter your email"
           />
+          {errors.email && <span className="help-block">{errors.email}</span>}
         </div>
 
         <div className="form-group">
@@ -66,6 +74,7 @@ class SignupForm extends React.Component {
             className="form-control form-control-inline"
             placeholder="enter your password"
           />
+          {errors.password && <span className="help-block">{errors.password}</span>}
         </div>
 
         <div className="form-group">
@@ -78,10 +87,11 @@ class SignupForm extends React.Component {
             className="form-control form-control-inline"
             placeholder="enter your name"
           />
+          {errors.passwordConfirmation && <span className="help-block">{errors.passwordConfirmation}</span>}
         </div>
 
         <div className="form-group">
-          <button className="btn btn-primary btn-lg">
+          <button disabled={this.state.isLoading} className="btn btn-primary btn-lg">
             Sign Up
           </button>
         </div>
