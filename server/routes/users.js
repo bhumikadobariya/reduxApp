@@ -48,6 +48,16 @@ function validateInput(data, otherValidations) {
   // });
 }
 
+router.get('/:identifire', (req, res) => {
+  User.query({
+    select: [ 'email', 'username' ],
+    where: { email: req.params.identifire },
+    orWhere: { username: req.params.identifire }
+  }).fetch().then(user => {
+    res.json({ user });
+  })
+});
+
 router.post('/', (req, res) => {
   console.log(req.body);
   // setTimeout(() => {
