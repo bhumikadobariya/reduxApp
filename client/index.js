@@ -10,19 +10,20 @@ import { createStore, applyMiddleware, compose} from 'redux';
 
 import routes from './routes';
 
-// const logger = createLogger();
+// const store = createStore(
+//   rootReducer,
+//   compose(
+//     applyMiddleware(thunk),
+//     window.devToolsExtension ? window.devToolsExtension() : f => f
+//   )
+// );
 
-const store = createStore(
-  rootReducer,
-  compose(
-    applyMiddleware(thunk),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
-  )
-);
+const logger = createLogger();
+const createStoreWithMiddleware = applyMiddleware(thunk, logger)(createStore);
+const store = createStoreWithMiddleware(rootReducer);
 
-// const createStoreWithMiddleware = applyMiddleware(thunk, logger)(createStore);
-// const store = createStoreWithMiddleware(rootReducer);
 // render(<App />, document.getElementById('app'));
+
 render(
   <Provider store={store}>
     <Router history={browserHistory} routes={routes} />

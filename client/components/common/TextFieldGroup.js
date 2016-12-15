@@ -1,9 +1,10 @@
 import React from 'react';
+import classnames from 'classnames';
 
 const TextFieldGroup = ({ field, value, label, error, type, onChange, placeholder}) => {
   return (
-    <div className="form-group">
-      <label className="col-sm-2 control-label">{label}</label>
+    <div className={classnames("form-group", { 'has-error': error})}>
+      <label className="control-label">{label}</label>
       <input
         type={type}
         name={field}
