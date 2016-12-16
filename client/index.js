@@ -7,6 +7,9 @@ import rootReducer  from './rootReducer'
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import { createStore, applyMiddleware, compose} from 'redux';
+import setAuthorizationToken from './utils/setAuthorizationToken';
+import jwt from 'jsonwebtoken';
+import { setCurrentUser } from './actions/authActions';
 
 import routes from './routes';
 
@@ -21,6 +24,11 @@ import routes from './routes';
 const logger = createLogger();
 const createStoreWithMiddleware = applyMiddleware(thunk, logger)(createStore);
 const store = createStoreWithMiddleware(rootReducer);
+
+if (localStorage.jwtToken) {
+  setAuthorizationToken(localStorage.jwtToken);
+  store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
+}
 
 // render(<App />, document.getElementById('app'));
 
