@@ -59,7 +59,6 @@ router.get('/:identifire', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  console.log(req.body);
   // setTimeout(() => {
     // const { errors, isValid } = validateInput(req.body);
     validateInput(req.body, commonValidations).then(({ errors, isValid }) => {

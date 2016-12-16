@@ -10,7 +10,6 @@ class SignupPage extends React.Component {
     return (
       <div className='row'>
         <div className='col-md-4 col-md-offset-4'>
-          <h1>Sign Up Page</h1>
           <SignupForm isUserExists={isUserExists} userSignupRequest={userSignupRequest} addFlashMessage={addFlashMessage} />
         </div>
       </div>

@@ -81,6 +81,7 @@ class SignupForm extends React.Component {
     const { errors } = this.state;
     return (
       <form onSubmit={this.onSubmit}>
+        <h1>Sign Up Page</h1>
 
         <TextFieldGroup
           type="text"
