@@ -26,7 +26,7 @@ TextFieldGroup.propTypes = {
   error: React.PropTypes.string,
   type: React.PropTypes.string.isRequired,
   onChange: React.PropTypes.func.isRequired,
-  placeholder: React.PropTypes.string.isRequired,
+  placeholder: React.PropTypes.string,
   checkUserExists: React.PropTypes.func
 }
 
