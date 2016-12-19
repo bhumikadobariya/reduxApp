@@ -21,10 +21,10 @@ export default (req, res, next) => {
         }).fetch().then(user => {
           if (!user) {
             res.status(404).json({ errors: 'No such User'});
+          } else {
+            req.currentUser = user;
+            next();
           }
-
-          req.currentUser = user;
-          next();
         });
       }
     });
