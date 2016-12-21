@@ -1,14 +1,12 @@
 import React from 'react';
 import TextFieldGroup from '../common/TextFieldGroup';
-import { connect } from 'react-redux';
-import { createEvent } from '../../actions/eventActions';
 
 class EventForm extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
+      event: '',
       errors: {},
       isLoading: false
     };
@@ -19,7 +17,18 @@ class EventForm extends React.Component {
 
   onSubmit(e) {
     e.preventDefault(e);
-    this.props.createEvent(this.state);
+    // this.props.createEvent(this.state);
+    this.props.createEvent(this.state).then(
+      () => {
+        this.props.addFlashMessage({
+          type: 'success',
+          text: 'Your event added successfully..'
+        });
+        // browserHistory.push('/');
+        this.context.router.push('/new-event');
+      },
+      (err) => this.setState({ errors: err.response.data, isLoading: false })
+    );
   }
 
   onChange(e) {
@@ -27,17 +36,17 @@ class EventForm extends React.Component {
   }
 
   render () {
-    const { title, errors, isLoading } = this.state;
+    const { event, errors, isLoading } = this.state;
     return (
       <div>
         <form onSubmit={this.onSubmit}>
           <h1>Create New Game Event</h1>
 
           <TextFieldGroup
-            field="title"
-            label="Title"
-            value={title}
-            error={errors.title}
+            field="event"
+            label="Event"
+            value={event}
+            error={errors.event}
             onChange={this.onChange}
             type="text"
           />
@@ -51,7 +60,12 @@ class EventForm extends React.Component {
 }
 
 EventForm.propTypes = {
-  createEvent: React.PropTypes.func.isRequired
+  createEvent: React.PropTypes.func.isRequired,
+  addFlashMessage: React.PropTypes.func.isRequired
 }
 
-export default connect(null, { createEvent })(EventForm);
+EventForm.contextTypes = {
+  router: React.PropTypes.object.isRequired
+}
+
+export default EventForm;

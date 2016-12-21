@@ -2,6 +2,6 @@ import axios from 'axios';
 
 export function createEvent(event) {
   return dispatch => {
-    axios.post('api/events', event);
+    return axios.post('api/events', event);
   }
 }
