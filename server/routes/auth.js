@@ -2,6 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from '../config';
+import authenticate from '../middlewares/authenticate';
 
 import User from '../models/user';
 
@@ -30,6 +31,20 @@ router.post('/', (req, res) => {
   })
 
 });
+
+router.get('/updateprofile', authenticate, (req, res) => {
+  console.log("ihihs");
+  // res.status(201).json({ success: true });
+  let user_id = req.currentUser.attributes.id;
+  console.log(user_id);
+  User.query({
+    select: [ 'email', 'username' ],
+    where: { id: user_id }
+  }).fetch().then(user => {
+    res.json({ user });
+  })
+});
+
 
 export default router;
 

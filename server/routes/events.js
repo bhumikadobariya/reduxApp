@@ -6,8 +6,6 @@ import Event from '../models/event';
 let router = express.Router();
 
 router.post('/', authenticate, (req, res) => {
-  // res.status(201).json({ success: true });
-  // res.status(201).json({ user: req.currentUser });
   let user_id = req.currentUser.attributes.id;
   const { event } = req.body;
   Event.forge({

@@ -8,8 +8,10 @@ class newEventPage extends React.Component {
   render() {
     const { createEvent, addFlashMessage } = this.props;
     return (
-      <div>
-        <EventForm createEvent={createEvent} addFlashMessage={addFlashMessage} />
+      <div className="row">
+        <div className='col-md-4 col-md-offset-4'>
+          <EventForm createEvent={createEvent} addFlashMessage={addFlashMessage} />
+        </div>
       </div>
     );
   }
