@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_USER_SUCCESS } from './types';
+import { FETCH_USER_SUCCESS, SET_FIELDS } from './types';
 
 export const fetchUser = ((Action) => {
   let user = true;
@@ -10,8 +10,19 @@ export const fetchUser = ((Action) => {
   return function(dispatch, getState) {
     axios.get('/api/auth/updateprofile')
       .then((response) => {
-        dispatch({ type: FETCH_USER_SUCCESS, data:response.data.user })
+        dispatch({ type: FETCH_USER_SUCCESS, user:response.data.user })
       })
     }
 });
 
+export const setFieldValue = (field, value) => ({
+  type: SET_FIELDS,
+  field,
+  value
+});
+
+export const userUpdateRequest = ((data) => {
+    return function(dispatch, getState, options) {
+    axios.post('/api/users/getUpdateProfile', data);
+  }
+});

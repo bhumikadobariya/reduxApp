@@ -1,15 +1,10 @@
-import { FETCH_USER_SUCCESS } from '../actions/types';
+import { FETCH_USER_SUCCESS, SET_FIELDS } from '../actions/types';
 import isEmpty from 'lodash/isEmpty';
 
-const initialState = {
-  userDetail: {}
-}
-
-export default (state = initialState, action = {}) => {
+export default (state = [], action = {}) => {
 
   switch(action.type) {
     case FETCH_USER_SUCCESS:
-      console.log("reducers", action);
       // return [
       //   ...state,
       //   {
@@ -17,7 +12,12 @@ export default (state = initialState, action = {}) => {
       //     userDetail: action.data
       //   }
       // ];
-      return Object.assign({}, state, { userDetail: action.data});
+      return Object.assign({}, state, action.user);
+
+    case SET_FIELDS:
+      state[action.field] = action.value;
+      return Object.assign({}, state, { state });
+
     default: return state;
   }
 }

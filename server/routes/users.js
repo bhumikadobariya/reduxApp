@@ -3,6 +3,7 @@ import commonValidations from '../shared/validations/signup';
 import bcrypt from 'bcrypt';
 // import Promise from 'bluebird';
 import isEmpty from 'lodash/isEmpty';
+import authenticate from '../middlewares/authenticate';
 
 import User from '../models/user';
 
@@ -78,6 +79,35 @@ router.post('/', (req, res) => {
       }
     });
   // }, 5000);
+});
+
+router.post('/getUpdateProfile', authenticate, (req,res) => {
+  console.log('getUpdateProfile', req.body);
+  let user_id = req.currentUser.attributes.id;
+
+  User.forge()
+    .query(function (qb) {
+      qb.where('id', '=', user_id);
+    })
+    .fetch()
+    .then(function (user) {
+      user
+        .save(req.body)
+        .then(function (results) {
+          return results;
+        }, function (err) {
+          return err;
+        });
+    }, function (error) {
+      if (error instanceof bookshelf.Model.NotFoundError) {
+        // Handle the fact that user doesn't exist
+        var err = new Error('User dose not exist.');
+        return err;
+      } else {
+        // Handle generic database error
+        return error;
+      }
+    });
 });
 
 export default router;

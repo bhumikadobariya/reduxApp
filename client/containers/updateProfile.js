@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import UpdateProfile from '../components/user/UpdateProfileForm';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
-import { fetchUser } from '../actions/userActions';
+import * as Actions from '../actions/userActions';
 
 const mapStateToProps = (state) => {
   return {
@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    actions: bindActionCreators({ fetchUser }, dispatch)
+    actions: bindActionCreators(Actions, dispatch)
   }
 }
 

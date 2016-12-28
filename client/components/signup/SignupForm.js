@@ -47,7 +47,7 @@ class SignupForm extends React.Component {
         if (res.data.user) {
           errors[field] = 'There is user with such ' + field;
           invalid = true;
-        } else{
+        } else {
           errors[field] = '';
           invalid = false;
         }
