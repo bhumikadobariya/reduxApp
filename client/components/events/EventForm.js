@@ -26,6 +26,7 @@ class EventForm extends React.Component {
         });
         // browserHistory.push('/');
         this.context.router.push('/new-event');
+        this.setState({event: ''});
       },
       (err) => this.setState({ errors: err.response.data, isLoading: false })
     );

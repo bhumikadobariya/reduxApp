@@ -94,7 +94,7 @@ router.post('/getUpdateProfile', authenticate, (req,res) => {
       user
         .save(req.body)
         .then(function (results) {
-          return results;
+          res.json({ results });
         }, function (err) {
           return err;
         });

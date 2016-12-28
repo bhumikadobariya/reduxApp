@@ -9,11 +9,7 @@ class UpdateProfileForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      email: '',
-      errors: {},
-      isLoading: false,
-      invalid: false
+      errors: {}
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -56,7 +52,7 @@ class UpdateProfileForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault(e);
-    console.log("this.updatestate::", this.state);
+
     let user = {
       username: this.props.state.user.username,
       email: this.props.state.user.email
@@ -112,7 +108,7 @@ class UpdateProfileForm extends React.Component {
 
         <div className="clearfix form-group">
           <form onSubmit={ this.handleSubmit } >
-            <button className="btn btn-info btn-lg" type="submit">Update Profile</button>
+            <button className="btn btn-info btn-lg" type="submit" disabled={this.state.isLoading || this.state.invalid} >Update Profile</button>
           </form>
         </div>
       </form>
