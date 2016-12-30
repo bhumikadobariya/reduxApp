@@ -9,7 +9,9 @@ class UpdateProfileForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      errors: {}
+      errors: {},
+      isLoading: false,
+      invalid: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -57,18 +59,29 @@ class UpdateProfileForm extends React.Component {
       username: this.props.state.user.username,
       email: this.props.state.user.email
     }
-    // this.props.userUpdateRequest(this.props.state.user).then(
-    //     () => {
-    //       this.props.addFlashMessage({
-    //         type: 'success',
-    //         text: 'Your profile updated successfully. Welcome!!!'
-    //       });
-    //       // browserHistory.push('/');
-    //       this.context.router.push('/');
-    //     },
-    //     (err) => this.setState({ errors: err.response.data, isLoading: false })
-    //   );
-    this.props.actions.userUpdateRequest(user, this.props.dispatch);
+
+    // this.props.actions.userUpdateRequest(user, this.props.dispatch);
+    // if(true) {
+      this.setState({ errors: {}, isLoading: true });
+      this.props.actions.userUpdateRequest(user, () => {
+        this.props.addFlashMessage({
+          type: 'success',
+          text: 'Your profile updated successfully!!!'
+        });
+        this.context.router.push('/');
+      },
+        (err) => this.setState({ errors: err.response.data, isLoading: false }),
+      );
+    // }
+
+    // this.props.actions.userUpdateRequest(user,
+    //   this.props.addFlashMessage({
+    //     type: 'success',
+    //     text: 'Your profile updated successfully!!!'
+    //   }),
+    //   (err) => this.setState({ errors: err.response.data, isLoading: false }),
+    //   this.context.router.push('/')
+    // );
   }
 
   componentDidMount() {
@@ -86,7 +99,7 @@ class UpdateProfileForm extends React.Component {
           type="text"
           error={errors.username}
           label="Username"
-          checkUserExists={this.checkUserExists}
+          // checkUserExists={this.checkUserExists}
           onChange={ this.handleFields }
           value={this.props.state.user.username}
           field="username"
@@ -98,7 +111,7 @@ class UpdateProfileForm extends React.Component {
           type="text"
           error={errors.email}
           label="Email"
-          checkUserExists={this.checkUserExists}
+          // checkUserExists={this.checkUserExists}
           onChange={ this.handleFields }
           value={this.props.state.user.email}
           field="email"
