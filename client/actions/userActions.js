@@ -22,7 +22,16 @@ export const setFieldValue = (field, value) => ({
 });
 
 export const userUpdateRequest = ((data) => {
-    return function(dispatch, getState, options) {
+  return function(dispatch, getState, options) {
     axios.post('/api/users/getUpdateProfile', data);
   }
+});
+
+export const getProfile = ((Action) => {
+  return function(dispatch, getState) {
+    axios.get('/api/auth/getProfile')
+      .then((response) => {
+        dispatch({ type: FETCH_USER_SUCCESS, user:response.data.user })
+      })
+    }
 });

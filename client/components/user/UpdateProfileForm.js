@@ -9,6 +9,8 @@ class UpdateProfileForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      username: '',
+      email: '',
       errors: {},
       isLoading: false,
       invalid: false
@@ -62,26 +64,27 @@ class UpdateProfileForm extends React.Component {
 
     // this.props.actions.userUpdateRequest(user, this.props.dispatch);
     // if(true) {
-      this.setState({ errors: {}, isLoading: true });
-      this.props.actions.userUpdateRequest(user, () => {
-        this.props.addFlashMessage({
-          type: 'success',
-          text: 'Your profile updated successfully!!!'
-        });
-        this.context.router.push('/');
-      },
-        (err) => this.setState({ errors: err.response.data, isLoading: false }),
-      );
+      // this.setState({ errors: {}, isLoading: true });
+      // this.props.actions.userUpdateRequest(user, () => {
+      //   this.props.addFlashMessage({
+      //     type: 'success',
+      //     text: 'Your profile updated successfully!!!'
+      //   });
+      //   this.context.router.push('/');
+      // },
+      //   (err) => this.setState({ errors: err.response.data, isLoading: false }),
+      // );
     // }
 
-    // this.props.actions.userUpdateRequest(user,
-    //   this.props.addFlashMessage({
-    //     type: 'success',
-    //     text: 'Your profile updated successfully!!!'
-    //   }),
-    //   (err) => this.setState({ errors: err.response.data, isLoading: false }),
-    //   this.context.router.push('/')
-    // );
+    this.props.actions.userUpdateRequest(user,
+      this.props.addFlashMessage({
+        type: 'success',
+        text: 'Your profile updated successfully!!!'
+      }),
+      (err) => this.setState({ errors: err.response.data, isLoading: false }),
+      this.setState(this.props.state.user),
+      this.context.router.push('/profile')
+    );
   }
 
   componentDidMount() {

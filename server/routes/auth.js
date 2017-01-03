@@ -45,6 +45,19 @@ router.get('/updateprofile', authenticate, (req, res) => {
   })
 });
 
+router.get('/getProfile', authenticate, (req,res) => {
+  console.log("getProfile");
+  // res.status(201).json({ success: true });
+  let user_id = req.currentUser.attributes.id;
+  console.log(user_id);
+  User.query({
+    select: [ 'email', 'username' ],
+    where: { id: user_id }
+  }).fetch().then(user => {
+    res.json({ user });
+  })
+})
+
 
 export default router;
 
