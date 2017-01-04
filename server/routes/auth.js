@@ -33,8 +33,6 @@ router.post('/', (req, res) => {
 });
 
 router.get('/updateprofile', authenticate, (req, res) => {
-  console.log("ihihs");
-  // res.status(201).json({ success: true });
   let user_id = req.currentUser.attributes.id;
   console.log(user_id);
   User.query({
@@ -46,8 +44,6 @@ router.get('/updateprofile', authenticate, (req, res) => {
 });
 
 router.get('/getProfile', authenticate, (req,res) => {
-  console.log("getProfile");
-  // res.status(201).json({ success: true });
   let user_id = req.currentUser.attributes.id;
   console.log(user_id);
   User.query({
@@ -58,6 +54,21 @@ router.get('/getProfile', authenticate, (req,res) => {
   })
 })
 
-
+router.delete('/deleteProfile/:id', (req, res) => {
+  User.forge({id: req.params.id})
+    .fetch({require: true})
+    .then(function (user) {
+      user.destroy()
+      .then(function () {
+        res.json({error: true, message: 'User successfully deleted'});
+      })
+      .catch(function (err) {
+        res.status(500).json({error: true, message: err.message});
+      });
+    })
+    .catch(function (err) {
+      res.status(500).json({error: true, message: err.message});
+    });
+});
 export default router;
 

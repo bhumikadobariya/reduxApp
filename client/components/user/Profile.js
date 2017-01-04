@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { logout } from '../../actions/authActions';
 
 class Profile extends React.Component {
 
@@ -12,6 +14,7 @@ class Profile extends React.Component {
       isLoading: false,
       invalid: false
     };
+    this.deleteUser = this.deleteUser.bind(this);
   }
 
   componentDidMount() {
@@ -19,6 +22,17 @@ class Profile extends React.Component {
                     email: this.props.state.user.email
                 });
     this.props.actions.getProfile(false, this.props.dispatch);
+  }
+
+  deleteUser() {
+    this.props.actions.deleteProfile(this.props.state.auth.user.id,
+      this.props.addFlashMessage({
+        type: 'success',
+        text: 'Your profile deleted successfully!!!'
+      }),
+      (err) => this.setState({ errors: err.response.data, isLoading: false }),
+      this.props.logout()
+    );
   }
 
   render () {
@@ -71,7 +85,7 @@ class Profile extends React.Component {
 
                 <div className="action">
                   <Link to="/update-profile"><button className='btn btn-default'> Update Profile </button></Link>
-                  <button className='btn btn-default'> Delete Profile </button>
+                  <button className='btn btn-default' onClick={ this.deleteUser } id='deleteUser'> Delete Profile </button>
                 </div>
               </div>
             </div>
@@ -82,5 +96,16 @@ class Profile extends React.Component {
   }
 }
 
-export default Profile;
+Profile.propTypes = {
+  addFlashMessage: React.PropTypes.func.isRequired,
+  logout: React.PropTypes.func.isRequired
+}
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  };
+}
+
+export default connect(mapStateToProps, { logout })(Profile);
 

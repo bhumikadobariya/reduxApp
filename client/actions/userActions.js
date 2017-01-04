@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_USER_SUCCESS, SET_FIELDS } from './types';
+import { FETCH_USER_SUCCESS, SET_FIELDS, FETCH_DELETE_USER } from './types';
 
 export const fetchUser = ((Action) => {
   let user = true;
@@ -32,6 +32,15 @@ export const getProfile = ((Action) => {
     axios.get('/api/auth/getProfile')
       .then((response) => {
         dispatch({ type: FETCH_USER_SUCCESS, user:response.data.user })
+      })
+    }
+});
+
+export const deleteProfile = ((id) => {
+  return function(dispatch, getState) {
+    axios.delete(`/api/auth/deleteProfile/${id}`)
+      .then((response) => {
+        dispatch({ type: FETCH_DELETE_USER, data:response.data.message })
       })
     }
 });

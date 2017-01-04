@@ -1,8 +1,9 @@
-import { FETCH_USER_SUCCESS, SET_FIELDS } from '../actions/types';
+import { FETCH_USER_SUCCESS, SET_FIELDS, FETCH_DELETE_USER } from '../actions/types';
 import isEmpty from 'lodash/isEmpty';
 
 const initialState = {
-  user: {}
+  user: {},
+  data: {}
 }
 
 export default (state = initialState, action = {}) => {
@@ -20,6 +21,9 @@ export default (state = initialState, action = {}) => {
     case SET_FIELDS:
       state[action.field] = action.value;
       return Object.assign({}, state, { state });
+
+    case FETCH_DELETE_USER:
+      return Object.assign({}, state, action.data);
 
     default: return state;
   }
